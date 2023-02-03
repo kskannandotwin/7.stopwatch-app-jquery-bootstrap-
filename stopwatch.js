@@ -52,7 +52,13 @@ $(function() {
     function startAction() {
         action = setInterval(function(){
             timeCounter++;
+                if (timeCounter == 100 * 60 * 100) {
+                    timeCounter = 0;
+            }
             lapCounter++;
+                if (lapCounter == 100 * 60 * 100) {
+                    lapCounter = 0;
+            }
             updateTime();
        }, 10);
     }
@@ -61,5 +67,37 @@ $(function() {
     function updateTime() {
         // 1 minute = 60 * 100 centiseconds = 6000 centiseconds
         timeMinutes = Math.floor(timeCounter / 6000);
+
+        // 1 sec = 100 centiseconds
+        timeSeconds = Math.floor((timeCounter % 6000) / 100);
+
+        // centisecond
+        timeCentiseconds = (timeCounter % 6000) % 100;
+
+        $('#timeminute').text(format(timeMinutes));
+        $('#timesecond').text(format(timeSeconds));
+        $('#timecentisecond').text(format(timeCentiseconds));
+
+        // 1 minute = 60 * 100 centiseconds = 6000 centiseconds
+        lapMinutes = Math.floor(lapCounter / 6000);
+
+        // 1 sec = 100 centiseconds
+        lapSeconds = Math.floor((lapCounter % 6000) / 100);
+
+        // centisecond
+        lapCentiseconds = (lapCounter % 6000) % 100;
+
+        $('#lapminute').text(format(lapMinutes));
+        $('#lapsecond').text(format(lapSeconds));
+        $('#lapcentisecond').text(format(lapCentiseconds));
+    }
+
+    // format number
+    function format(number) {
+        if (number < 10) {
+            return '0' + number;
+        } else {
+            return number;
+        }
     }
 });
