@@ -24,21 +24,45 @@ $(function() {
     });        
 
     // click on stop button
-        // show resume and reset buttons
-        // stop counter
+    $('#stopButton').click(function() {
+         // show resume and reset buttons
+         hideshowButtons('#resumeButton', '#resetButton');
+
+         // stop counter
+         clearInterval(action);
+    });       
 
     // click on resume button
+    $('#resumeButton').click(function() {
         // show stop and lap buttons
-        // start action
+        hideshowButtons('#stopButton', '#lapButton');
+
+        // start counter
+        startAction();
+   });  
 
     // click on reset button
+    $('#resetButton').click(function() {
         // reload the page
+        location.reload();
+   });  
 
     // click on lap button
+    $('#lapButton').click(function() {
         // if mode is on
+        if(mode) {
             // stop action
+            clearInterval(action);
+
             // reset lap and print lap details
+            lapCounter = 0;
+            addLap();
+
             // start action
+            startAction();
+        }           
+   });  
+        
 
     // functions
     // hideshowButtons function show two buttons
@@ -99,5 +123,23 @@ $(function() {
         } else {
             return number;
         }
+    }
+
+    // add lap function: print lap details inside the lap box
+    function addLap() {
+        lapNumber++;
+        var lapDetails =
+        '<div class="lap">' +
+            '<div class="laptimetitle">' +
+                'Lap' + lapNumber + 
+            '</div>' +
+            '<div class="laptime">' + 
+                '<span>' + format(lapMinutes) + '</span>' +
+                ':<span>' + format(lapSeconds) + '</span>' +
+                ':<span>' + format(lapCentiseconds) + '</span>' +
+            '</div>'
+        '</div>'
+        ;
+        $(lapDetails).prependTo('#laps');
     }
 });
